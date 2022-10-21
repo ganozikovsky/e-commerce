@@ -9,6 +9,7 @@ import {
 } from "../../styles/ProductDetail"
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai"
 import { useStateContext } from "../../lib/context"
+import toast from "react-hot-toast"
 
 function ProductDetails() {
   const {
@@ -37,6 +38,10 @@ function ProductDetails() {
 
   const { title, description, image } = data.products.data[0].attributes
 
+  // create a toast
+  const notify = () => {
+    toast.success(`${title} added to cart!"`)
+  }
   return (
     <DetailsStyle>
       <img src={image.data.attributes.formats.medium.url} alt={title} />
@@ -53,7 +58,12 @@ function ProductDetails() {
             <AiFillPlusCircle onClick={increaseQty} />
           </button>
         </Quantity>
-        <Buy onClick={() => onAdd(data.products.data[0].attributes, qty)}>
+        <Buy
+          onClick={() => {
+            onAdd(data.products.data[0].attributes, qty)
+            notify()
+          }}
+        >
           Add to cart
         </Buy>
       </ProductInfo>
