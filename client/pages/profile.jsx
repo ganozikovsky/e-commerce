@@ -2,6 +2,7 @@ import { useRouter } from "next/router"
 const stripe = require("stripe")(`${process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY}`)
 import { withPageAuthRequired, getSession } from "@auth0/nextjs-auth0"
 import styled from "styled-components"
+import formatMoney from "../lib/formatMoney"
 
 export const getServerSideProps = withPageAuthRequired({
   async getServerSideProps(ctx) {
@@ -25,7 +26,7 @@ function Profile({ user, orders }) {
           {orders.map((order) => (
             <Order key={order.id}>
               <h1>Order number: {order.id}</h1>
-              <h2>Ammount: {order.amount}</h2>
+              <h2>Amount: {formatMoney(order.amount)}</h2>
               <h2>Receipt Email: {user.email}</h2>
             </Order>
           ))}
